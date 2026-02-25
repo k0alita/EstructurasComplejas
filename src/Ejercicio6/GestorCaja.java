@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.stream.IntStream;
 
-public class GestorCaja {
+public class GestorCaja{
     private Caja[] cajas;
     private int contadorClientes;
 
