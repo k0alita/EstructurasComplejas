@@ -1,0 +1,30 @@
+En una agencia de viajes especializada en rutas personalizadas, cada cliente puede tener
+varias rutas asignadas y cada ruta está compuesta por varias paradas. Se desea crear una
+aplicación que permita gestionar estas rutas de manera eficiente.
+Cada cliente de la agencia tendrá un nombre y un identificador único (ID de cliente). Cada
+ruta tiene un nombre, un destino final, y una lista de paradas intermedias (estas paradas
+serán cadenas de texto que representan ciudades o lugares turísticos). Además, cada
+cliente podrá tener varias rutas asociadas.
+Desde la agencia se debe poder realizar las siguientes operaciones:
+● Añadir una nueva ruta a un cliente. Si el cliente ya tiene una ruta con el mismo
+nombre, se deberá lanzar una excepción.
+● Eliminar una ruta concreta de un cliente. Si el cliente no tiene esa ruta asignada,
+deberá lanzarse una excepción.
+● Añadir una parada a una ruta concreta de un cliente. Si la parada ya existe en la
+ruta, no se debe duplicar.
+● Eliminar una parada de una ruta concreta de un cliente. Si la parada no existe, se
+lanzará una excepción.
+● Mostrar la lista completa de rutas de un cliente, donde cada ruta muestre su nombre,
+su destino final y todas sus paradas ordenadas alfabéticamente.
+● Generar un listado de todos los clientes que tienen al menos una ruta que incluya
+una determinada parada. Este listado debe estar ordenado alfabéticamente por el
+nombre del cliente.
+● Implementar un método que devuelva todas las paradas de todas las rutas de un
+cliente, sin duplicados y ordenadas alfabéticamente.
+Se deberá decidir qué estructuras de almacenamiento de Collections son las más
+adecuadas para cada parte del sistema (por ejemplo, para almacenar las rutas de un cliente
+o las paradas de una ruta), teniendo en cuenta que no hay un límite máximo de clientes,
+rutas o paradas.
+Finalmente, realizar un programa de prueba que permita crear varios clientes con sus rutas
+y paradas y comprobar todas las operaciones anteriores mostrando los resultados en
+pantalla.
