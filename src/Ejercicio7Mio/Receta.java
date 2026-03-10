@@ -1,7 +1,6 @@
 package Ejercicio7Mio;
 
-import Ejercicio6v2.Cliente;
-
+import java.beans.Introspector;
 import java.util.*;
 
 public class Receta {
@@ -30,6 +29,14 @@ public class Receta {
         }
     }
 
+    public Set<Ingrediente> getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(Set<Ingrediente> ingredientes) {
+        this.ingredientes = ingredientes;
+    }
+
     public void anadirIngrediente(Ingrediente ingrediente) {
         if (!ingredientes.add(ingrediente)) {
             for (Ingrediente i : ingredientes) {
@@ -37,6 +44,20 @@ public class Receta {
                     i.setCantidad(i.getCantidad() + ingrediente.getCantidad());
                 }
             }
+        }
+    }
+
+    public void borrarIngrediente(Ingrediente ingrediente) throws RecetaException {
+        if (ingredientes.remove(ingrediente)){
+            Iterator<String> it = pasos.iterator();
+            while (it.hasNext()) {
+                String paso = it.next();
+                if (paso.contains(ingrediente.getNombre())) {
+                    it.remove();
+                }
+            }
+        } else {
+            throw new RecetaException("El ingrediente " + ingrediente.getNombre() + " no existe en la receta");
         }
     }
 
