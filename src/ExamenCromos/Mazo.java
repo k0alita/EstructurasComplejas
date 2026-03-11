@@ -14,7 +14,7 @@ public class Mazo {
 	 * Creamos un mapa que tiene como clave el propio Cromo y como
 	 * valor el n�mero de unidades del mismo que tenemos en el mazo.
 	 * Cuidado porque al hacer Cromo clave, tenemos que codificar 
-	 * el m�todo equals en la clase Cromo.
+	 * el metodo equals en la clase Cromo.
 	 */
 	private Map<Cromo, Integer> mazo;
 	
@@ -111,10 +111,10 @@ public class Mazo {
 		return mazo.keySet().stream().filter(c -> {
 			if (c instanceof Escudo) {
 				Escudo e = (Escudo) c;
-				return e.getNombre().equals(equipo);
+				return e.getNombre().equalsIgnoreCase(equipo);
 			}
 			else {
-				return ((Jugador) c).getEquipo().equals(equipo);
+				return ((Jugador) c).getEquipo().equalsIgnoreCase(equipo);
 			}
 		}).collect(Collectors.toList());
 	}

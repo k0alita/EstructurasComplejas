@@ -58,12 +58,12 @@ public class Principal {
 		while (!fin) {
 			try {
 				System.out.println(menu());
-				System.out.print("\n�Qu� desea hacer?: ");
+				System.out.print("\nQue desea hacer?: ");
 				int op = Integer.parseInt(sc.nextLine());
 
 				switch (op) {
 				case 1:
-					System.out.println("\n�Qu� cromo desea a�adir?: ");
+					System.out.println("\nQue cromo desea añadir?: ");
 					mostrarCromos();
 									
 					String nombre = sc.nextLine();
@@ -73,12 +73,12 @@ public class Principal {
 					
 					break;
 				case 2:
-					System.out.println("�Cu�l de tus cromos quieres cambiar?: ");
+					System.out.println("Cual de tus cromos quieres cambiar?: ");
 					mostrarCromosDeMazo(m1);
 					String nombreCromoParaCambiar = sc.nextLine();
 					Cromo cromoParaCambiar = get(nombreCromoParaCambiar);
 					
-					System.out.println("�Por qu� cromo quieres cambiarlo?: ");
+					System.out.println("Por que cromo quieres cambiarlo?: ");
 					mostrarCromosDeMazo(m2);
 					String nombreCromoDelOtro = sc.nextLine();
 					Cromo cromoDelOtro = get(nombreCromoDelOtro);
@@ -100,12 +100,12 @@ public class Principal {
 					System.out.println("Actualmente tienes " + m1.contarDiferentes() + " cromos diferentes");
 					break;
 				case 5:
-					System.out.println("�De qu� equipo quieres mostrar los cromos?: ");
+					System.out.println("De que equipo quieres mostrar los cromos?: ");
 					String equipoMostrar = sc.nextLine();
 					m1.cromosDeUnEquipo(equipoMostrar).stream().forEach(System.out::println);
 					break;
 				case 6:
-					System.out.println("�De qu� equipo quieres mostrar la altura media?: ");
+					System.out.println("De que equipo quieres mostrar la altura media?: ");
 					String equipoAltura = sc.nextLine();
 					System.out.println(m1.alturaMedia(equipoAltura));
 					break;
@@ -136,7 +136,7 @@ public class Principal {
 	}
 	
 	private static String menu() {
-		return "\n(1) A�adir nuevo cromo" 
+		return "\n(1) Añadir nuevo cromo"
 				+ "\n(2) Intercambiar dos cromos" 
 				+ "\n(3) Mezclar con otro mazo" 
 				+ "\n(4) Contar cromos diferentes"
@@ -144,7 +144,7 @@ public class Principal {
 				+ "\n(6) Calcular la altura media"
 				+ "\n(7) Mostrar lista de cromos"
 				+ "\n(8) Mostrar los cromos ordenados"
-				+ "\n(9** Extra) Mostrar equipos completos"
+				+ "\n(9) Mostrar equipos completos"
 				+ "\n(10) Salir";
 	}
 	
