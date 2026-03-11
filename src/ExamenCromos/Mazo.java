@@ -12,7 +12,7 @@ import ExamenCromos.exceptions.MazoException;
 public class Mazo {
 	/**
 	 * Creamos un mapa que tiene como clave el propio Cromo y como
-	 * valor el n�mero de unidades del mismo que tenemos en el mazo.
+	 * valor el numero de unidades del mismo que tenemos en el mazo.
 	 * Cuidado porque al hacer Cromo clave, tenemos que codificar 
 	 * el metodo equals en la clase Cromo.
 	 */
@@ -30,7 +30,7 @@ public class Mazo {
 	}
 
 	/**
-	 * A�ade un cromo a mi mazo
+	 * Añade un cromo a mi mazo
 	 * @param c
 	 * @return
 	 */
@@ -39,10 +39,10 @@ public class Mazo {
 	}
 	
 	/**
-	 * Permite a�adir cualquier cantidad de un cromo dado a mi mazo
-	 * @param c el cromo del cual voy a a�adir numeroCromos unidades
-	 * @param numeroCromos el n�mero de unidades del cromo c que voy a a�adir al mazo
-	 * @return el n�mero actual de unidades del cromo c resultante
+	 * Permite añadir cualquier cantidad de un cromo dado a mi mazo
+	 * @param c el cromo del cual voy a añadir numeroCromos unidades
+	 * @param numeroCromos el nimero de unidades del cromo c que voy a añadir al mazo
+	 * @return el numero actual de unidades del cromo c resultante
 	 */
 	public int addCromo(Cromo c, int numeroCromos) {
 		if (this.mazo.containsKey(c)) {
@@ -56,9 +56,9 @@ public class Mazo {
 	}
 	
 	/**
-	 * Coge un cromo (de otro mazo, pero no se trata eso aqu�) y lo a�ade a mi mazo.
-	 * Al mismo tiempo, elimina una unidad de uno de mis cromos. Si fuera la �ltima
-	 * unidad, se ha de eliminar el cromo tambi�n.
+	 * Coge un cromo (de otro mazo, pero no se trata eso aqui) y lo añade a mi mazo.
+	 * Al mismo tiempo, elimina una unidad de uno de mis cromos. Si fuera la ultima
+	 * unidad, se ha de eliminar el cromo tambien.
 	 * @param mio El cromo de mi mazo que voy a intercambiar
 	 * @param nuevo El cromo de otro mazo que voy a recibir
 	 * @throws MazoException Si intento intercambiar un cromo de mi mazo que no tengo
@@ -69,29 +69,29 @@ public class Mazo {
 		}
 		
 		if (this.mazo.get(mio).intValue() > 1) {
-			// Tengo m�s de uno, por tanto el cromo se quedar� en el mazo
+			// Tengo mas de uno, por tanto el cromo se quedarr en el mazo
 			this.mazo.put(mio, Integer.valueOf(this.mazo.get(mio).intValue() - 1));
 		}
 		else {
-			// Tan solo tengo 1, por lo que habr� que eliminarse del mazo
+			// Tan solo tengo 1, por lo que habra que eliminarse del mazo
 			this.mazo.remove(mio);
 		}
 		
-		// Por �ltimo a�adimos el nuevo cromo al mazo
+		// Por ultimo añadimos el nuevo cromo al mazo
 		this.addCromo(nuevo);
 	}
 	
 	/**
-	 * Mezcla mi mazo con otro que recibo como par�metro
-	 * @param otro el mazo con el que voy a mezclar el m�o
+	 * Mezcla mi mazo con otro que recibo como parametro
+	 * @param otro el mazo con el que voy a mezclar el mio
 	 */
 	public void mezclar (Mazo otro) {
 		otro.getMazo().forEach((cromo, unidades) -> this.addCromo(cromo, unidades));
 	}
 	
 	/**
-	 * Al no permitir los Map elementos repetidos, el tama�o del mismo representa
-	 * el n�mero de cromos distintos que tengo
+	 * Al no permitir los Map elementos repetidos, el tamaño del mismo representa
+	 * el numero de cromos distintos que tengo
 	 * @return
 	 */
 	public int contarDiferentes() {
@@ -105,7 +105,7 @@ public class Mazo {
 	 */
 	public List<Cromo> cromosDeUnEquipo(String equipo) {
 		/*
-		 * Filtramos los cromos del mazo. Solo pasar�n el filtro aquellos escudos
+		 * Filtramos los cromos del mazo. Solo pasaren el filtro aquellos escudos
 		 * cuyo nombre sea equipo, o aquellos jugadores cuyo equipo sea equipo.
 		 */
 		return mazo.keySet().stream().filter(c -> {
@@ -153,7 +153,7 @@ public class Mazo {
 	public List<Cromo> ordenar(){
 		return mazo.keySet().stream().sorted((a, b) -> {
 			if (a instanceof Escudo) {
-				// a es un escudo, �y b?
+				// a es un escudo, y b?
 				if (b instanceof Escudo) {
 					// Los dos son escudos, comparamos por nombre
 					Escudo e1 = (Escudo) a;
@@ -166,7 +166,7 @@ public class Mazo {
 				}				
 			}
 			else {
-				// a es un jugador, �y b?
+				// a es un jugador, y b?
 				if (b instanceof Jugador) {
 					// Los dos son jugadores, comparamos por nombre
 					Jugador j1 = (Jugador) a;
@@ -188,10 +188,10 @@ public class Mazo {
 	 */
 	public List<String> equipoCompleto(){
 		List<String> equipos = new LinkedList<>();
-		// Primero obtengo los escudos, para despu�s ver si tengo todos sus jugadores.
+		// Primero obtengo los escudos, para despues ver si tengo todos sus jugadores.
 		Iterator<Cromo> it = mazo.keySet().stream().filter(c -> c instanceof Escudo).iterator();
 		
-		// Por cada escudo, cuento los jugadores que tengo. Si los tengo todos, lo a�ado a la lista
+		// Por cada escudo, cuento los jugadores que tengo. Si los tengo todos, lo añado a la lista
 		while (it.hasNext()) {
 			Escudo escudo = (Escudo) it.next();
 			long jugadoresQueTengo = mazo.keySet().stream()
