@@ -2,6 +2,8 @@ package ExamenGoku.model;
 
 import ExamenGoku.exception.GokuException;
 
+import java.util.Objects;
+
 public class Ataque {
     private String nombre;
     private int kiNecesario;
@@ -50,5 +52,25 @@ public class Ataque {
             throw new GokuException("El daño de ataque debe ser mayor a 0");
         }
         this.dañoAtaque = dañoAtaque;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ataque ataque)) return false;
+        return nivelPerfeccionAtaque == ataque.nivelPerfeccionAtaque &&
+                dañoAtaque == ataque.dañoAtaque &&
+                Objects.equals(nombre, ataque.nombre);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nombre, nivelPerfeccionAtaque, dañoAtaque);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s (Nivel: %d, Daño: %d, Ki: %d)",
+                nombre, nivelPerfeccionAtaque, dañoAtaque, kiNecesario);
     }
 }
