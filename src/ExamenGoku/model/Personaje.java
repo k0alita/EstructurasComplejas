@@ -13,6 +13,7 @@ public class Personaje {
     private int kiMaximo;
     private int kiActual;
     private Set<Ataque> ataques;
+    private boolean muerto;
 
     public Personaje(String nombre, TRaza raza, int vidaMaxima, int vidaActual, int kiMaximo, int kiActual) {
         this.nombre = nombre;
@@ -22,6 +23,7 @@ public class Personaje {
         setKiMaximo(kiMaximo);
         setKiActual(kiActual);
         ataques = new LinkedHashSet<>();
+        muerto = false;
     }
 
     public String getNombre() {
@@ -49,9 +51,16 @@ public class Personaje {
 
     public void setVidaActual(int vidaActual) {
         if (vidaActual > vidaMaxima || vidaActual < 0) {
+            if (vidaActual < 0) {
+                vidaActual = 0;
+            }
             throw new GokuException("La vida actual tiene que estar entre 0 y la vida maxima");
         }
         this.vidaActual = vidaActual;
+    }
+
+    public int getVidaActual() {
+        return vidaActual;
     }
 
     public int getKiMaximo() {
@@ -88,6 +97,21 @@ public class Personaje {
 
     public void setAtaques(Set<Ataque> ataques) {
         this.ataques = ataques;
+    }
+
+    public boolean estaMuerto() {
+        if (vidaActual == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public void recibirDaño(int daño) {
+        if (!estaMuerto()) {
+            if (daño > vidaActual) {
+                vidaActual = 0;
+            } else vidaActual = vidaActual - daño;
+        }
     }
 
     @Override

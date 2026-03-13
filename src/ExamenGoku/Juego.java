@@ -24,7 +24,6 @@ public class Juego {
             // Llamada al método que muestra los personajes con más ataques
             System.out.println("Personaje(s) que conocen más ataques:");
             juego.personajeConMasAtaques();
-            System.out.println();
             System.out.println("Personaje(s) con el ataque más poderoso:");
             juego.personajeConAtaqueMasPoderoso();
             System.out.println();
@@ -57,6 +56,8 @@ public class Juego {
             System.out.println();
             System.out.println("Eliminamos los ataques de nivel 1.");
             juego.eliminarAtaquesInferioresANivel(2);
+
+            System.out.println();
             System.out.println("Todos los ataques restantes de todos los jugadores:");
             juego.todosLosAtaquesOrdenadosNombre();
 
@@ -155,44 +156,46 @@ public class Juego {
     }
 
     public void personajeConAtaqueMasPoderoso() throws GokuException {
-        int maxDamage = personajes.stream()
-                .flatMap(p -> p.getAtaques().stream()).mapToInt(Ataque::getDañoAtaque)
-                        .max().orElseThrow(() -> new GokuException("No hay personajes o ataques"));
-
-
+        int maxDaño = personajes.stream()
+                .flatMap(p -> p.getAtaques().stream())
+                .mapToInt(Ataque::getDañoAtaque)
+                .max().orElse(0);
         personajes.stream()
-                .filter(p -> p.getAtaques().stream().anyMatch(a -> a.getDañoAtaque() == maxDamage))
-                .forEach(p -> {
-                    // Obtenemos los nombres de los ataques del personaje que hacen ese daño máximo
-                    String nombresAtaques = p.getAtaques().stream()
-                            .filter(a -> a.getDañoAtaque() == maxDamage)
-                            .map(Ataque::getNombre)
-                            .distinct() // Por si tiene el mismo ataque repetido
-                            .collect(java.util.stream.Collectors.joining(", "));
-
-                    System.out.println("Personaje: " + p.getNombre() +
-                            " | Ataque(s): " + nombresAtaques +
-                            " | Daño: " + maxDamage);
-                });
+                .filter(p -> p.getAtaques().stream().anyMatch(a -> a.getDañoAtaque() == maxDaño))
+                .forEach(p -> System.out.println(p.getNombre() + " tiene un ataque de daño " + maxDaño));
     }
 
+
     public void todosLosAtaquesOrdenadosNombre() {
-        Set<Ataque> unicos = obtenerAtaquesUnicos();
-        unicos.stream().sorted(Comparator.comparing(Ataque::getNombre)).forEach(System.out::println);
+
+       personajes.stream().flatMap(personaje ->  personaje.getAtaques().stream())
+                .distinct().sorted().forEach(System.out::println);
     }
 
     public void todosLosAtaquesOrdenadosDamage() {
-        Set<Ataque> unicos = obtenerAtaquesUnicos();
-        unicos.stream().sorted(Comparator.comparing(Ataque::getDañoAtaque).reversed()).forEach(System.out::println);
+        personajes.stream().flatMap(personaje ->  personaje.getAtaques().stream())
+                .distinct()
+                .sorted((a1, a2) -> a2.getDañoAtaque() - a1.getDañoAtaque())
+                .forEach(System.out::println);
     }
 
     public Ataque ataqueMasDañino(Personaje p1, Personaje p2) throws GokuException{
-        return p1.getAtaques().stream()
-                .filter(a -> a.getKiNecesario() <= p1.getKiActual())
-                .max(Comparator.comparing(Ataque::getDañoAtaque)).orElse(null);
+       return p1.getAtaques().stream()
+               .filter(ataque -> ataque.getKiNecesario() <= p1.getKiActual())
+               .max((a1, a2) -> a2.getDañoAtaque() - a1.getDañoAtaque())
+               .orElseThrow(() -> new GokuException("No puedes hacer ningun ataque"));
     }
 
     public void atacar(Personaje p1, Personaje p2, String ataque) throws GokuException {
+        if (p1.estaMuerto() || p2.estaMuerto()) {
+            throw new GokuException("Alguno de los personajes esta muerto");
+        }
+        Ataque a = p1.getAtaques().stream()
+                .filter(ataque1 -> ataque1.getNombre().equalsIgnoreCase(ataque) && ataque1.getKiNecesario() <= p1.getKiActual())
+                .max((a1, a2) -> a2.getDañoAtaque() - a1.getDañoAtaque())
+                .orElseThrow(() -> new GokuException("El ataque no se puede lanzar"));
+        p2.recibirDaño(a.getDañoAtaque());
+        System.out.println("El personaje 2 queda con vida " + p2.getVidaActual());
 
     }
 
@@ -200,7 +203,9 @@ public class Juego {
         for (Personaje p : personajes) {
             Iterator<Ataque> it = p.getAtaques().iterator();
             while (it.hasNext()) {
-                if (it.next().getNivelPerfeccionAtaque() < nivel) {
+                Ataque a = it.next();
+                if (a.getNivelPerfeccionAtaque() < nivel) {
+                    System.out.println("Eliminado: " + a.getNombre() + " con nivel: " + a.getNivelPerfeccionAtaque());
                     it.remove();
                 }
             }
@@ -209,18 +214,11 @@ public class Juego {
 
     public Map<TRaza, List<Personaje>> devuelveMapaRazas(){
         Map<TRaza, List<Personaje>> mapa = new HashMap<>();
-        for (Personaje p : personajes) {
-            mapa.computeIfAbsent(p.getRaza(), k -> new ArrayList<>()).add(p);
+        for (TRaza raza : TRaza.values()) {
+            mapa.put(raza, personajes.stream()
+                    .filter(p -> p.getRaza() == raza).toList());
         }
         return mapa;
-    }
-
-    private Set<Ataque> obtenerAtaquesUnicos() {
-        Set<Ataque> unicos = new HashSet<>();
-        for (Personaje p : personajes) {
-            unicos.addAll(p.getAtaques());
-        }
-        return unicos;
     }
 
 }

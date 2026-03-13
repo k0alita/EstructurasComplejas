@@ -4,7 +4,7 @@ import ExamenGoku.exception.GokuException;
 
 import java.util.Objects;
 
-public class Ataque {
+public class Ataque implements Comparable<Ataque> {
     private String nombre;
     private int kiNecesario;
     private int nivelPerfeccionAtaque;
@@ -72,5 +72,10 @@ public class Ataque {
     public String toString() {
         return String.format("%s (Nivel: %d, Daño: %d, Ki: %d)",
                 nombre, nivelPerfeccionAtaque, dañoAtaque, kiNecesario);
+    }
+
+    @Override
+    public int compareTo(Ataque o) {
+        return this.nombre.compareTo(o.nombre);
     }
 }
